@@ -1203,20 +1203,22 @@ function render() {
   });
 
   // Stats summary
-  const totalRev = records.reduce((s, r) => s + (r.total_revenue||0), 0);
-  const avgTicket = records.filter(r=>r.avg_ticket).reduce((s,r,_,a) => s + r.avg_ticket/a.length, 0);
-  const avgJPD = records.filter(r=>r.jobs_per_day).reduce((s,r,_,a) => s + r.jobs_per_day/a.length, 0);
-  const avgCancel = records.filter(r=>r.cancel_rate!=null).reduce((s,r,_,a) => s + r.cancel_rate/a.length, 0);
+const totalRev = records.reduce((s, r) => s + (r.total_revenue || 0), 0);
+const avgTicket = records.filter(r => r.avg_ticket).reduce((s, r, _, a) => s + r.avg_ticket / a.length, 0);
+const avgJPD = records.filter(r => r.jobs_per_day).reduce((s, r, _, a) => s + r.jobs_per_day / a.length, 0);
+const avgCancel = records.filter(r => r.cancel_rate != null).reduce((s, r, _, a) => s + r.cancel_rate / a.length, 0);
+const avgAOVCompletion = records.filter(r => r.aov_completion_rate != null)
+  .reduce((s, r, _, a) => s + r.aov_completion_rate / a.length, 0);
 
-  const statsBar = document.getElementById('statsBar');
-  statsBar.innerHTML = [
-    {val: records.length, lbl: 'Technicians'},
-    {val: totalRev >= 1000 ? '$' + (totalRev/1000).toFixed(0) + 'K' : '$' + totalRev.toFixed(0), lbl: 'Total Rev'},
-    {val: '$' + (avgTicket||0).toFixed(0), lbl: 'Avg Ticket'},
-    {val: (avgJPD||0).toFixed(1), lbl: 'Avg Jobs/Day'},
-    {val: (avgCancel||0).toFixed(1) + '%', lbl: 'Avg Cancel'},
-  ].map(s => `<div class="stat-chip"><div class="stat-chip-val">${s.val}</div><div class="stat-chip-lbl">${s.lbl}</div></div>`).join('');
-
+const statsBar = document.getElementById('statsBar');
+statsBar.innerHTML = [
+  { val: records.length, lbl: 'Technicians' },
+  { val: totalRev >= 1000 ? '$' + (totalRev / 1000).toFixed(0) + 'K' : '$' + totalRev.toFixed(0), lbl: 'Total Rev' },
+  { val: '$' + (avgTicket || 0).toFixed(0), lbl: 'Avg Ticket' },
+  { val: (avgJPD || 0).toFixed(1), lbl: 'Avg Jobs/Day' },
+  { val: (avgCancel || 0).toFixed(1) + '%', lbl: 'Avg Cancel' },
+  { val: (avgAOVCompletion || 0).toFixed(1) + '%', lbl: 'Avg AOV Cmpl' },
+].map(s => `<div class="stat-chip"><div class="stat-chip-val">${s.val}</div><div class="stat-chip-lbl">${s.lbl}</div></div>`).join('');
   // Cards
   const lb = document.getElementById('leaderboard');
 
